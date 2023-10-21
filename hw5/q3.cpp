@@ -19,3 +19,40 @@ Sample input:
 Sample output:
 Divisible
 */
+// Etaw answer 74/100 not scoring full yet
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int mod(int x, int y) {
+  x%=y;
+  if (x<0) {
+    return y+x;
+  }
+  else {
+    return x;
+  }
+}
+int main() {
+  int n, k; cin>>n>>k;
+  vector<int> number(n);
+  for (int i=0; i<n; i++) {
+    cin>>number[i];
+    number[i]=mod(number[i], k);
+  }
+  int dp[n][k]; memset(dp, 0, sizeof dp);
+  dp[0][number[0]]=1;
+  for (int i=1; i<n; i++) {
+    for (int j=0; j<=k; j++) {
+      if (dp[i-1][j]==1) {
+        dp[i][mod(j+number[i], k)]=1;
+        dp[i][mod(j-number[i], k)]=1;
+      }
+    }
+  }
+  if (dp[n-1][k-1]==1) {
+    cout<<"Divisible";
+  }
+  else {
+    cout<<"Not divisible";
+  }
+}

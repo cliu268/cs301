@@ -27,3 +27,35 @@ Sample input:
 Sample output:
 20
 */
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int main() {
+  int v, n, t; cin>>v>>n>>t;
+  vector<int> weight(n);
+  vector<int> value(n);
+  map<int, vector<int>> group;
+  for (int i=0; i<n; i++) {
+    int x;
+    cin>>weight[i]>>value[i]>>x;
+    if (group.find(x)==group.end()) {
+      group[x]={i};
+    }
+    else {
+      group[x].push_back(i);
+    }
+  }
+  vector<int> dp(v+1, 0);
+  vector<int> group_dp(v+1, 0);
+  for (int i=1; i<=t; i++) {
+    for (int j=0; j<group[i].size(); j++) {
+      for (int k=v; k>=weight[group[i][j]]; k--) {
+        group_dp[k]=max(group_dp[k], dp[k-weight[group[i][j]]]+value[group[i][j]]);
+      }
+    }
+    for (int j=0; j<=v; j++) {
+      dp[j]=group_dp[j];
+    }
+  }
+  cout<<group_dp[v];
+}

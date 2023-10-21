@@ -32,3 +32,28 @@ Sample output:
 Hint:
 Choose 1 piece for the first item and 2 pieces for the third item.
 */
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int main() {
+  int v, n; cin>>v>>n;
+  vector<int> weight;
+  vector<int> value;
+  for (int i=0; i<n; i++) {
+    int a, b, c; cin>>a>>b>>c;
+    if (c==0) {
+      c=v/a;
+    }
+    for (int j=0; j<c; j++) {
+      weight.push_back(a);
+      value.push_back(b);
+    }
+  }
+  vector<int> dp(v+1, 0);
+  for (int i=0; i<weight.size(); i++) {
+    for (int j=v; j>=weight[i]; j--) {
+      dp[j]=max(dp[j], dp[j-weight[i]]+value[i]);
+    }
+  }
+  cout<<dp[v];
+}
