@@ -1,5 +1,6 @@
 // Triangle of Numbers
 // https://xjoi.net/contest/5005/problem/2
+// https://www.xinyoudui.com/contest?courses=649&books=476&pages=12836&fragments=31102&problemId=3657
 /*
 Digital triangle. Shown below is a number triangle. Please write a script to find out a path somewhere from the top to the bottom, 
 so that the sum of the numbers on the path is the largest. Only the sum  is required in the output.
@@ -34,3 +35,64 @@ Sample input:
 Sample output:
 30
 */
+// Etaw --> this will TLE for some cases. didn't use DP
+// #include <bits/stdc++.h>
+// using namespace std;
+// int n;
+// vector<vector<int>> triangle;
+// int maxi=0;
+// void solve(int row, int col, int sum) {
+//   if (row==(n-1)) {
+//     maxi=max(maxi, sum);
+//     return;
+//   }
+//   else {
+//     solve(row+1, col, sum+triangle[row+1][col]);
+//     solve(row+1, col+1, sum+triangle[row+1][col+1]);
+//   }
+// }
+ 
+// int main() {
+//   cin>>n;
+//   for (int i=0; i<n; i++) {
+//     vector<int> row;
+//     for (int j=0; j<=i; j++) {
+//       int x; cin>>x;
+//       row.push_back(x);
+//     }
+//     triangle.push_back(row);
+//   }
+//   solve(0, 0, triangle[0][0]);
+//   cout<<maxi;
+// }
+
+// Ev
+#include<bits/stdc++.h>
+using namespace std;
+int n;
+
+vector<vector<int>> t(100, vector<int>(100, 0));
+vector<vector<int>> a(100, vector<int>(100, -1));
+
+int dp(int x, int y){
+    if(a[x][y] != -1) return a[x][y];
+    if(x==n-1){
+        a[x][y] = t[x][y];
+    }
+    else{
+        a[x][y] = t[x][y]+max(dp(x+1, y), dp(x+1, y+1));
+    }
+    return a[x][y];
+}
+
+int main(void){
+    cin >> n;
+
+    for(int i=0; i<n; i++){
+        for(int j=0; j<=i; j++){
+            cin >> t[i][j];
+        }
+    }
+
+    cout << dp(0, 0);
+}

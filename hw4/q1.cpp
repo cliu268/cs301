@@ -23,3 +23,43 @@ Output:
 9
 2 4 5 6 7 8 9 11 13
 */
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int main() {
+  int n;
+  cin >> n;
+ 
+  int weights[n];
+  int W=0;
+  for (int i = 0; i < n; i++) {
+    cin >> weights[i];
+    W+=weights[i];
+  }
+ 
+  int dp[W + 1];
+  for (int capacity = 0; capacity <= W; capacity++) dp[capacity] = 0;
+   
+  for (int max_index = 0; max_index < n; max_index++) {
+    for (int capacity = W; capacity >= weights[max_index]; capacity--) {
+      dp[capacity] = max(dp[capacity],
+                         dp[capacity - weights[max_index]] + weights[max_index]);
+    }
+  }
+  map<int, bool> visited;
+  int count=0;
+  for (int i=0; i<=W; i++) {
+    if (dp[i]>0 && !visited[dp[i]]) {
+      visited[dp[i]]=true;
+      count++;
+    }
+  }
+  cout<<count<<"\n";
+  map<int, bool> visited2;
+  for (int i=0; i<=W; i++) {
+    if (dp[i]>0 && !visited2[dp[i]]) {
+      visited2[dp[i]]=true;
+      cout<<dp[i]<<" ";
+    }
+  }
+}

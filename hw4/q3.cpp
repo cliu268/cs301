@@ -29,3 +29,48 @@ Sample output：
 Time limit：1000
 Memory limit：65536
 */
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int main() {
+  int n, m; cin>>n>>m;
+  vector<int> price(n);
+  vector<int> values(n);
+  vector<vector<int>> dp;
+  for (int i=0; i<n; i++) {
+    int x;
+    cin>>price[i]>>values[i]>>x;
+    price[i]*=x;
+    values[i]*=x;
+  }
+  for (int i=0; i<=n; i++) {
+    vector<int> row(m+1, 0);
+    dp.push_back(row);
+  }
+  for (int i=1; i<=n; i++) {
+    for (int j=1; j<=m; j++) {
+      if ((j-price[i-1])<0) {
+        dp[i][j]=dp[i-1][j];
+        continue;
+      }
+      dp[i][j]=max(dp[i-1][j], dp[i-1][j-price[i-1]]+values[i-1]);
+    }
+  }
+  cout<<dp[n][m]<<"\n";
+  vector<int> ans;
+  int x=n; int y=m;
+  while (x>0 && y>0) {
+    if ((dp[x-1][y-price[x-1]]+values[x-1])==dp[x][y] && values[x-1]!=0 && y>=price[x-1]) {
+      ans.push_back(x);
+      y-=price[x-1];
+      x--;
+    }
+    else {
+      x--;
+    }
+  }
+  sort(ans.begin(), ans.end());
+  for (int i : ans) {
+    cout<<i<<" ";
+  }
+}

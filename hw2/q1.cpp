@@ -1,5 +1,6 @@
 // Coin Combinations I
 // https://xjoi.net/contest/5037/problem/1
+// https://www.xinyoudui.com/contest?courses=649&books=476&pages=12839&fragments=31103&problemId=14090
 /*
 Consider a money system consisting of n coins. Each coin has a positive integer value. Your task is to calculate the number of 
 distinct ways you can produce a money sum x using the available coins.
@@ -57,3 +58,70 @@ is equivalent to (if there is no intreger overflow):
 
 The 2nd approach is usually preferred because you have less concern about integer overflow of sum.
 */
+// Etaw
+// #include <bits/stdc++.h>
+// typedef long long ll;
+// using namespace std;
+ 
+// int main() {
+//   ll n, x; cin>>n>>x;
+//   long long mod=pow(10, 9)+7;
+//   vector<ll> coins(n);
+//   vector<ll> dp(x+1, 0);
+//   for (ll i=0; i<n; i++) {
+//     cin>>coins[i];
+//     if (coins[i]>x) {
+//       continue;
+//     }
+//     dp[coins[i]]=1;
+//   }
+//   for (ll i=1; i<=x; i++) {
+//     for (ll j=0; j<n; j++) {
+//       if ((i-coins[j])>=0) {
+//         if (dp[i-coins[j]]==0 && ((i-coins[j])!=0)) {
+//           continue;
+//         }
+//         dp[i]+=dp[i-coins[j]];
+//         dp[i]%=mod;
+//       }
+//     }
+//   }
+//   cout<<dp[x];
+// }
+
+// Ev
+#include<bits/stdc++.h>
+using namespace std;
+int n, x;
+vector<int> c(101, 0);
+vector<int> a(1000001, 0);
+
+int dp(int b){
+    for(int i=1; i<=b; i++){
+        for(int j=0; j<n; j++){
+            if(i-c[j]<0){
+                continue;
+            }
+            a[i]+=a[i-c[j]];
+            a[i] %= 1000000007;
+        }
+        
+    }
+    return a[b];
+}
+
+int main(){
+    cin >> n >> x;
+    
+    for(int i=0; i<n; i++){
+        cin >> c[i];
+        a[c[i]]=1;
+        if(c[i]>x){
+            c[i]=0;
+        }
+        // cout << c[i] << " ";
+    }
+
+    cout << dp(x);
+
+}

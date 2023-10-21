@@ -1,5 +1,6 @@
 // the longest incremental subsequence
 // https://xjoi.net/contest/5037/problem/3
+// https://www.xinyoudui.com/contest?courses=649&books=476&pages=12839&fragments=31103&problemId=3276
 /*
 When a number sequence (series) bi has its elements b_1
 For a given series (a_1, a_2, ..., a_n)，we can find some sub-sequence that are incremental series: (a_{i1}, a_{i2}, ..., a_{iK})，
@@ -29,3 +30,67 @@ Sample output:
 Constraints:
 1 <= n <= 1000, 1<= each element <=10000
 */
+// Etaw
+// #include <bits/stdc++.h>
+// using namespace std;
+ 
+// int main() {
+//   int n; cin>>n;
+//   vector<int> sequence(n);
+//   for (int i=0; i<n; i++) {
+//     cin>>sequence[i];
+//   }
+//   vector<int> dp(n+1, 0);
+//   for (int i=1; i<=n; i++) {
+//     for (int j=1; j<i; j++) {
+//       if (sequence[j-1]<sequence[i-1]) {
+//         dp[i]=max(dp[i], 1+dp[j]);
+//       }
+//     }
+//     if (dp[i]==0) {
+//       dp[i]=1;
+//     }
+//   }
+//   int maxi=0;
+//   for (int i=0; i<=n; i++) {
+//     maxi=max(maxi, dp[i]);
+//   }
+//   cout<<maxi;
+// }
+
+// Ev
+#include<bits/stdc++.h>
+using namespace std;
+int n;
+vector<int> s(1001, 0);
+vector<int> a(1001, 0);
+
+void dp(int b){
+    for(int i=1; i<b; i++){
+        for(int j=0; j<i; j++){
+            if(s[j]<s[i]){
+                a[i]=max(a[i], a[j]+1);
+            }
+        }
+        if(a[i]==0){
+            a[i]=1;
+        }
+    }
+
+}
+
+int main(){
+    cin >> n;
+    for(int i=0; i<n; i++){
+        cin >> s[i];
+    }
+
+    a[0]=1;
+    int ans=0;
+    dp(n);
+
+    for(int i=0; i<n; i++){
+        ans=max(ans, a[i]);
+    }
+    cout << ans;
+}
