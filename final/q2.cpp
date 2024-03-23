@@ -25,3 +25,47 @@ Example Input:
 Output:
 2 3 2 3 3
 */
+
+// Ev
+#include<bits/stdc++.h>
+using namespace std;
+
+const int N_MAX = 2 * 1e5 + 1; 
+vector<vector<int>> tree(N_MAX);
+vector<int> visited(N_MAX, 0);
+vector<int> answers(N_MAX, 0);
+
+void dfs(int distance, int node){
+    answers[node] = max(answers[node], distance);
+    // cout << answers[node] << " " << node << endl;
+    for(int i=0; i<tree[node].size(); i++){
+        if(visited[tree[node][i]] == 0){
+            visited[tree[node][i]] = 1;
+            dfs(distance + 1, tree[node][i]);
+        }
+    }
+}
+
+int main(){
+    int n; cin >> n;
+    for(int i=0; i<n-1; i++){
+        int a, b; 
+        cin >> a >> b;
+        tree[a].push_back(b);
+        tree[b].push_back(a);
+    }
+
+    // cout << "mark " << endl;
+
+    for(int i=1; i<=n; i++){
+        // cout << i << ": " << endl;
+        visited[i] = 1;
+        dfs(0, i);
+        std::fill(visited.begin(), visited.end(), 0);
+    }
+    
+    for(int i=1; i<=n; i++){
+        cout << answers[i] << " ";
+    }
+    
+}

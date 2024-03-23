@@ -1,5 +1,6 @@
 // Packing Limited and Unlimited Items
 // https://xjoi.net/contest/5167/problem/2
+// https://www.xinyoudui.com/contest?courses=649&books=476&pages=12849&fragments=31106&problemId=3668
 /*
 Time Limit: 1s    Memory  Limit: 128M
 Description :
@@ -32,28 +33,60 @@ Sample output:
 Hint:
 Choose 1 piece for the first item and 2 pieces for the third item.
 */
-#include <bits/stdc++.h>
-using namespace std;
+// Etaw
+// #include <bits/stdc++.h>
+// using namespace std;
  
-int main() {
-  int v, n; cin>>v>>n;
-  vector<int> weight;
-  vector<int> value;
-  for (int i=0; i<n; i++) {
-    int a, b, c; cin>>a>>b>>c;
-    if (c==0) {
-      c=v/a;
+// int main() {
+//   int v, n; cin>>v>>n;
+//   vector<int> weight;
+//   vector<int> value;
+//   for (int i=0; i<n; i++) {
+//     int a, b, c; cin>>a>>b>>c;
+//     if (c==0) {
+//       c=v/a;
+//     }
+//     for (int j=0; j<c; j++) {
+//       weight.push_back(a);
+//       value.push_back(b);
+//     }
+//   }
+//   vector<int> dp(v+1, 0);
+//   for (int i=0; i<weight.size(); i++) {
+//     for (int j=v; j>=weight[i]; j--) {
+//       dp[j]=max(dp[j], dp[j-weight[i]]+value[i]);
+//     }
+//   }
+//   cout<<dp[v];
+// }
+
+// Ev
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    int v, n; //capacity, items
+    cin >> v >> n;
+
+    vector<int> weights(n, 0);
+    vector<int> values(n, 0);
+    vector<int> limits(n, 0);
+    vector<int> dp(v+1, 0);
+
+    for(int i=0; i<n; i++){
+        cin >> weights[i] >> values[i] >> limits[i];
+        if(limits[i]==0){
+            limits[i] = v/weights[i];
+        }
     }
-    for (int j=0; j<c; j++) {
-      weight.push_back(a);
-      value.push_back(b);
+
+    for(int max_index=0; max_index<n; max_index++){
+        for(int quantity=0; quantity<limits[max_index]; quantity++){
+            for(int capacity=v; capacity>=weights[max_index]; capacity--){
+                dp[capacity] = max(dp[capacity], dp[capacity-weights[max_index]] + values[max_index]);
+            }
+        }
     }
-  }
-  vector<int> dp(v+1, 0);
-  for (int i=0; i<weight.size(); i++) {
-    for (int j=v; j>=weight[i]; j--) {
-      dp[j]=max(dp[j], dp[j-weight[i]]+value[i]);
-    }
-  }
-  cout<<dp[v];
+
+    cout << dp[v];
 }

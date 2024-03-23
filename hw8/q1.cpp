@@ -21,3 +21,33 @@ Example Input:
 Example Output:
 4 1 1 0 0
 */
+// Etaw
+#include <bits/stdc++.h>
+using namespace std;
+ 
+vector<vector<int> > adjacencies(200001);
+vector<int> dp(200001, 1);
+ 
+int dfs(int j) {
+  // 301B exercise
+  for (int i=0; i<adjacencies[j].size(); i++) {
+    dp[j]+=dfs(adjacencies[j][i]);
+  }
+  return dp[j];
+}
+ 
+int main() {
+  int n;
+  cin >> n;
+  for (int i = 2; i <= n; i++) {
+    int num;
+    cin >> num;
+    adjacencies[num].push_back(i);
+  }
+ 
+  dfs(1);
+ 
+  for (int i = 1; i <= n; i++) {
+    cout << dp[i]-1 << " ";
+  }
+}

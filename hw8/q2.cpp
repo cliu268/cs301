@@ -40,3 +40,48 @@ Sample Output
 Time limit: 1000ms
 Memory Limit: 65536
 */
+// Etaw
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// Total number of soldiers on a tree rooted at an index,
+// when no soldier is placed at the index (root).
+int dp1[1500];
+// Total number of soldiers on a tree rooted at an index,
+// when a soldier is placed at the index (root).
+int dp2[1500];
+vector<vector<int> > child_lists(1500);
+ 
+void dfs(int root) {
+  // 301B exercise. Populate dp1[] and dp2[] recursively.
+  dp2[root]=1;
+  dp1[root]=0;
+  for (int i=0; i<child_lists[root].size(); i++) {
+    if (dp1[child_lists[root][i]]==-1 || dp2[child_lists[root][i]]==-1) {
+      dfs(child_lists[root][i]);
+    }
+    dp1[root]+=dp2[child_lists[root][i]];
+    dp2[root]+=min(dp1[child_lists[root][i]], dp2[child_lists[root][i]]);
+  }
+  return;
+}
+ 
+int main() {
+  int N;
+  cin >> N;
+  int node, child_num, child;
+  for (int i = 0; i < N; i++) {
+    dp1[i] = -1;
+    dp2[i] = -1;
+    cin >> node >> child_num;
+    for (int j = 0; j < child_num; j++) {
+      cin >> child;
+      child_lists[node].push_back(child);
+    }
+  }
+ 
+  // Node 0 is always the root, according to input format.
+  dfs(0);
+ 
+  cout << min(dp1[0], dp2[0]) << endl;
+}

@@ -23,3 +23,45 @@ Hint:
 Try to implement all the problems using the most efficient method: iterative with 1-D dp array.
 For truck delivery, use scanf() and print() for inputs and outputs to save time.
 */
+// Etaw
+// #include <bits/stdc++.h>
+// using namespace std;
+ 
+// int main() {
+//   int n, m; cin>>n>>m;
+//   vector<int> volumes(n);
+//   for (int i=0; i<n; i++) {
+//     cin>>volumes[i];
+//   }
+//   vector<int> dp(m+1, 0);
+//   for (int i=0; i<n; i++) {
+//     for (int j=m; j>=volumes[i]; j--) {
+//       dp[j]=max(dp[j], dp[j-volumes[i]]+volumes[i]);
+//     }
+//   }
+//   cout<<m-dp[m];
+// }
+
+// Ev
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    int n, m;
+    cin >> n >> m;
+
+    vector<int> w(n, 0);
+    vector<int> dp(m+1, 0);
+
+    for(int i=0; i<n; i++){
+        scanf("%d", &w[i]);
+    }
+
+    for(int max_index=0; max_index<n; max_index++){
+        for(int capacity=m; capacity>=w[max_index]; capacity--){
+            dp[capacity] = max(dp[capacity], dp[capacity-w[max_index]]+w[max_index]);
+        }
+    }
+
+    cout << m - dp[m];
+}

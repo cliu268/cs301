@@ -28,3 +28,44 @@ Sample Input：
 Sample Output：
 4
 */
+// Etaw
+#include <bits/stdc++.h>
+using namespace std;
+ 
+vector<vector<int>> tree;
+int n;
+int ans=0;
+void dfs(int x, int depth, vector<bool> &visited) {
+  visited[x]=true;
+  bool found=false;
+  for (int i=0; i<tree[x].size(); i++) {
+    if (visited[tree[x][i]]) {
+      continue;
+    }
+    found=true;
+    dfs(tree[x][i], depth+1, visited);
+  }
+  visited[x]=false;
+  if (!found) {
+    ans=max(ans, depth);
+    cout<<"\n";
+    return;
+  }
+}
+int main() {
+  cin>>n;
+ 
+  for (int i=0; i<n; i++) {
+    vector<int> row;
+    for (int j=0; j<n; j++) {
+      char c; cin>>c;
+      if (c=='1') {
+        row.push_back(j);
+      }
+    }
+    tree.push_back(row);
+  }
+  vector<bool> visited(n, false);
+  dfs(0, 1, visited);
+  cout<<ans-1;
+}
