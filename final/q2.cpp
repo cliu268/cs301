@@ -1,5 +1,6 @@
 // Tree Distances I
 // https://xjoi.net/contest/5452/problem/2
+// https://www.xinyoudui.com/ac/contest/7740019EF0002E10119FCE/problem/14036 - see cs302 hw2 qc.cpp
 /*
 You are given a tree consisting of n nodes.
 Your task is to determine for each node the maximum distance to another node.
@@ -25,8 +26,51 @@ Example Input:
 Output:
 2 3 2 3 3
 */
+// Etaw TLE 49%
+// #include <bits/stdc++.h>
+// using namespace std;
+// vector<vector<int>> graph(1e6);
+  
+// // void dfs(int x, int prev, int count, int &ans) {
+// //   if (graph[x].size()==1 && graph[x][0]==prev) {
+// //     ans=max(count, ans);
+// //     return;
+// //   }
+// //   for (int i=0; i<graph[x].size(); i++) {
+// //     if (graph[x][i]==prev) {
+// //       continue;
+// //     }
+// //     dfs(graph[x][i], x, count+1, ans);
+// //   }
+// // }
+// int main() {
+//   int n; scanf("%d", &n);
+//   for (int i=0; i<n-1; i++) {
+//     int a, b; scanf("%d %d", &a, &b);
+//     graph[a].push_back(b);
+//     graph[b].push_back(a);
+//   }
+//   for (int i=1; i<=n; i++) {
+//     int ans=0;
+//     queue<vector<int>> q;
+//     q.push({i, 0, i});
+//     while (!q.empty()) {
+//       vector<int> curr=q.front();
+//       q.pop();
+//       ans=max(ans, curr[1]);
+//       for (int i=0; i<graph[curr[0]].size(); i++) {
+//         if (graph[curr[0]][i]==curr[2]) {
+//           continue;
+//         }
+//         q.push({graph[curr[0]][i], curr[1]+1, curr[0]});
+//       }
+//     }
+//     printf("%d ", ans);
+//   }
+// }
 
-// Ev
+
+// Ev 49% - check video solution
 #include<bits/stdc++.h>
 using namespace std;
 
